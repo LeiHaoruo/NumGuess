@@ -1,0 +1,43 @@
+//文件名：猜数字.cpp
+//本程序为一个猜数字游戏
+
+#include <cstdlib> //包含伪随机数生成函数
+#include <ctime>   //包含取系统时间的函数
+#include <iostream>
+using namespace std;
+
+int main()
+{ 	int ran[3], count_a=0, count_b=0, times=0, time_win=0, time_fail=0, num[3], i, j, k;
+	bool flag;char answer;
+  	
+	srand(time(NULL));  //随机数种子初始化
+	
+	for(;;)				
+	{cout << "需要玩游戏吗（Y/N）？"; cin >>answer;
+	if(answer=='N')break; 
+	else if(answer=='Y')
+		{times+=1;flag=false;//用于判断是否赢得游戏和计数 
+		 do{ran[0]=rand() * 10 / (RAND_MAX + 1);
+			ran[1]=rand() * 10 / (RAND_MAX + 1);
+			ran[2]=rand() * 10 / (RAND_MAX + 1);}
+		 while(ran[0]==ran[1]||ran[1]==ran[2]||ran[0]==ran[2]); //保证产生三个不同随机数 
+		  for(k=1;k<8;++k)	//每局的7次机会 
+		    { cout << "请输入你猜的数字："<<endl;
+		      cin >>num[0]>>num[1]>>num[2];
+		 	  count_a=0,count_b=0;
+		  	  for(j=0;j<3;++j)
+		  	    for(i=0;i<3;++i) //判断是否猜对 
+			  	  if(num[j] != ran[i])continue;
+			      else{if(i==j)count_a+=1;
+			  	  	   else count_b+=1;} 
+			  cout << "A"<<count_a<<"B"<<count_b<<endl;
+			  if(count_a==3)
+			    {cout<<"恭喜，你答对了"<<endl; 
+				 flag=true;time_win+=1;break;}
+			} 
+		  if (!flag){time_fail+=1;
+		  cout <<"很遗憾，你没有在规定次数内猜对。答案是"<<ran[0]<<ran[1]<<ran[2]<<endl;}}}	  
+	cout << "你一共玩了"<<times<<"局，赢了"<<time_win<<"局，输了"<<time_fail<<"局";		  
+		  
+	return 0;		
+ } 
